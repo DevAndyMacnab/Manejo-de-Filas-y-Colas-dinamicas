@@ -55,7 +55,6 @@ class DesksList:
             tmp=tmp.anterior
             if tmp.code==self.id:
                 tmp.state=True
-                print(tmp.code,tmp.id,tmp.attendant,tmp.state,tmp.idPuntoAtencion)
                 return print("ACABAMOS DE ENCONTRAR EL CODIGO QUE NOS PROPORCIONO")
             if tmp==self.ultimo:
                 print("TODO MAL NO ES ENCONTRO NADA")

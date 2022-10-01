@@ -98,6 +98,13 @@ while True:
         inicialConfigXml=inicialConfig.getroot()
         for configInicial in inicialConfigXml:
             print(configInicial.tag)
+            activarEscritorios=configInicial.findall("escritoriosActivos")
+            for element in  activarEscritorios:
+                for desk in element:
+                    activar=desk.attrib["idEscritorio"]
+                    print(activar)
+                    listadodesk.activarEscritorio(activar)
+                    listadodesk.recorrer_fin_inicio()
     
     
     
