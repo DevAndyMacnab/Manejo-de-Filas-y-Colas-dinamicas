@@ -1,3 +1,4 @@
+from email.errors import InvalidMultipartContentTransferEncodingDefect
 import sys
 sys.path.append(r"C:\Users\andyr\Desktop\PROGRA PARA USAC\PROYECTO2-LAB-IPC2\src")
 from importlib.metadata import FileHash
@@ -9,6 +10,7 @@ from AttentionPointList import AttentionPointList
 from ClientList import ClientList
 from DesksList import DesksList
 from TransactionsList import TransactionsList
+from transaccionesClientesLista import TransaccionesClientesLista
 
 
 print("BIENVENIDO SELECCIONE LAS PRIMERAS OPCIONES PARA INICIAR:")
@@ -17,6 +19,8 @@ enterpriseList=EnterpriseList()
 attentionList=AttentionPointList()
 listadodesk=DesksList()
 listTransacciones= TransactionsList()
+listaClientes=ClientList()
+listaTransaccionesClientes= TransaccionesClientesLista()
 
 while True:
     firstOpcion= input()
@@ -25,6 +29,7 @@ while True:
         attentionList=AttentionPointList()
         listadodesk=DesksList()
         listTransacciones= TransactionsList()
+        
         print("LA LISTA SE HA LIMPIADO CORRECTAMENTE")
         enterpriseList.recorrer_fin_inicio()
         
@@ -98,25 +103,42 @@ while True:
         inicialConfig=ET.parse(askopenfile())
         inicialConfigXml=inicialConfig.getroot()
         for configInicial in inicialConfigXml:
-            print(configInicial.tag)
+            
+            idEmpresa=configInicial.attrib["idEmpresa"]
+            idpoint=configInicial.attrib["idPunto"]
+            idConfig=configInicial.attrib["id"]
+            
             activarEscritorios=configInicial.findall("escritoriosActivos")
             
            
             for element in  activarEscritorios:
                 for desk in element:
                     activar=desk.attrib["idEscritorio"]
-                    print(activar)
+                    
                     listadodesk.activarEscritorio(activar)
                     #listadodesk.recorrer_fin_inicio()
             
             for el in configInicial:
                 clientes=el.findall("cliente")
-                print(clientes)
-                print
+                
                 for cliente in clientes:
                     dpi= cliente.attrib["dpi"]
                     nombre=cliente.find("nombre").text
-                    print(nombre)
+                    listaClientes.agregar_inicio(dpi,nombre,idEmpresa,idpoint)
+                    print("todo bien")
+                    
+                    for transaccion in cliente:
+                        clienteTransaccion=transaccion.findall("transaccion")
+                        
+                        for element in clienteTransaccion:
+                            idTransaccion=element.attrib["idTransaccion"]
+                            cantidad=element.attrib["cantidad"]
+                            listaTransaccionesClientes.agregar_inicio(idTransaccion,cantidad,dpi)
+                            print(idTransaccion,cantidad)
+                            
+                    
+        listaTransaccionesClientes.recorrer_fin_inicio()            
+        listaClientes.recorrer_fin_inicio()
             
                 
     

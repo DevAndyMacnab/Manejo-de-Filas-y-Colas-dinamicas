@@ -1,8 +1,7 @@
-import os
-from Client import Client
+from transaccionesClientes import TransaccionesClientes
 
-class ClientList:
-    def __init__(self) :
+class TransaccionesClientesLista:
+    def __init__(self):
         self.primero=None
         self.ultimo=None
         
@@ -11,9 +10,8 @@ class ClientList:
             return True
         else:
             return False
-        
-    def agregar_inicio(self, dpi, name,idEmpresa,idPunto):
-        nuevo=Client( dpi, name, idEmpresa,idPunto)
+    def agregar_inicio(self, idTransaccion, cantidad,dpiCliente):
+        nuevo=TransaccionesClientes( idTransaccion, cantidad,dpiCliente)
 
         if self.estaVacia():
             self.primero=self.ultimo=nuevo
@@ -41,7 +39,7 @@ class ClientList:
     def recorrer_fin_inicio(self):
         tmp=self.ultimo
         while tmp:
-            print(tmp.dpi, tmp.name,tmp.idEmpresa,tmp.idPunto)
+            print(tmp.idTransaccion,tmp.cantidad,tmp.dpiCliente)
             tmp=tmp.anterior
             if tmp==self.ultimo:
                 break
