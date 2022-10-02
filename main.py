@@ -12,7 +12,7 @@ from TransactionsList import TransactionsList
 
 
 print("BIENVENIDO SELECCIONE LAS PRIMERAS OPCIONES PARA INICIAR:")
-print(" -limpiar\n -cargarConfig \n -crearEmpresa \n -cargarInicial")
+print(" -limpiar\n -config \n -crearEmpresa \n -inicial")
 enterpriseList=EnterpriseList()
 attentionList=AttentionPointList()
 listadodesk=DesksList()
@@ -30,7 +30,7 @@ while True:
         
         
         
-    elif firstOpcion =="cargarConfig":
+    elif firstOpcion =="config":
         systemConfig=ET.parse(askopenfile())
         systemConfigXml=systemConfig.getroot()
         
@@ -93,20 +93,32 @@ while True:
         
 
 
-    elif firstOpcion=="cargarInicial":
+    elif firstOpcion=="inicial":
         
         inicialConfig=ET.parse(askopenfile())
         inicialConfigXml=inicialConfig.getroot()
         for configInicial in inicialConfigXml:
             print(configInicial.tag)
             activarEscritorios=configInicial.findall("escritoriosActivos")
+            
+           
             for element in  activarEscritorios:
                 for desk in element:
                     activar=desk.attrib["idEscritorio"]
                     print(activar)
                     listadodesk.activarEscritorio(activar)
-                    listadodesk.recorrer_fin_inicio()
-    #esto es una prueba
+                    #listadodesk.recorrer_fin_inicio()
+            
+            for el in configInicial:
+                clientes=el.findall("cliente")
+                print(clientes)
+                print
+                for cliente in clientes:
+                    dpi= cliente.attrib["dpi"]
+                    nombre=cliente.find("nombre").text
+                    print(nombre)
+            
+                
     
     
     
