@@ -106,7 +106,7 @@ while True:
                     print(activar)
                     listadodesk.activarEscritorio(activar)
                     listadodesk.recorrer_fin_inicio()
-    
+    #esto es una prueba
     
     
     
