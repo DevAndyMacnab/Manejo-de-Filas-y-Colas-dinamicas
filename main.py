@@ -94,6 +94,7 @@ while True:
 
 
     elif firstOpcion=="cargarInicial":
+        
         inicialConfig=ET.parse(askopenfile())
         inicialConfigXml=inicialConfig.getroot()
         for configInicial in inicialConfigXml:
