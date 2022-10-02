@@ -23,12 +23,15 @@ listaClientes=ClientList()
 listaTransaccionesClientes= TransaccionesClientesLista()
 
 while True:
-    firstOpcion= input()
+    print(" -limpiar\n -config \n -crearEmpresa \n -inicial \n -seleccion")
+    firstOpcion= input(". . .")
     if firstOpcion == "limpiar":
         enterpriseList=EnterpriseList()
         attentionList=AttentionPointList()
         listadodesk=DesksList()
         listTransacciones= TransactionsList()
+        listaClientes=ClientList()
+        listaTransaccionesClientes=TransaccionesClientesLista()
         
         print("LA LISTA SE HA LIMPIADO CORRECTAMENTE")
         enterpriseList.recorrer_fin_inicio()
@@ -94,7 +97,37 @@ while True:
 
 
     elif firstOpcion=="crearEmpresa":
-        print("hola mundo")
+        code=input("INGRESE EL ID DE LA EMPRESA ")
+        name=input("INGRESE EL NOMBRE DE LA EMPRESA ")
+        abbreviation=input("INGRESE LA ABREVIACION DE LA EMPRESA ")
+        enterpriseList.agregar_inicio(code,name,abbreviation)
+        print("-----------")
+        cantidadPuntos=input("¿CUANTOS ESCRITORIOS QUIERE INGRESAR? ")
+        for i in range(int(cantidadPuntos)):
+            print("-------------")
+            codigo=input("INGRESE EL ID DEL PUNTO DE ATENCION ")
+            nombre=input("INGRESE EL NOMBRE DEL PUNTO DE ATENCION ")
+            address=input("INGRESE LA DIRECCION DEL PUNTO DE ATENCION ")
+            idEmpresa=code
+            attentionList.agregar_inicio(codigo,nombre,address,idEmpresa)
+        
+        cantidadEscritorios=input("¿CUANTOS ESCRITORIOS DESEA INGRESAR? ")
+        for i in range(int(cantidadEscritorios)):
+            print("-----------")
+            Codigo=input("INGRESE EL ID DEL ESCRITORIO ")
+            ide=input("INGRESE LA IDENTIFICACION DEL ESCRITORIO ")
+            attend=input("INGRESE EL NOMBRE DEL ENCARGADO ")
+            state=False
+            idAtencion=codigo
+            listadodesk.agregar_inicio(Codigo,ide,attend,state,idAtencion)
+            
+        print("SE HAN GUARDADO LOS DATOS DE LA EMPRESA SATISFACTORIAMENTE: ")
+        print("Empresas")
+        enterpriseList.recorrer_fin_inicio()
+        print("Puntos de Atencion")
+        attentionList.recorrer_fin_inicio()
+        print("Escritorios de atencion")
+        listadodesk.recorrer_fin_inicio()
         
 
 
