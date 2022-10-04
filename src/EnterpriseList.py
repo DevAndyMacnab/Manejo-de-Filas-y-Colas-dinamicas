@@ -56,5 +56,16 @@ class EnterpriseList:
             tmp=tmp.anterior
             if tmp==self.ultimo:
                 break
+    def seleccionEmpresa(self,seleccionEmpresa):
+        self.seleccion=seleccionEmpresa
+        tmp=self.ultimo
+        while tmp:
+            tmp=tmp.anterior
+            if tmp.code==self.seleccion:
+              print("HA SELECCIONADO LA EMPRESA: ",tmp.name)
+              return True
+            if tmp==self.ultimo:
+                print("El codigo que ha ingresado esta incorrecto")
+                return False
                 
         

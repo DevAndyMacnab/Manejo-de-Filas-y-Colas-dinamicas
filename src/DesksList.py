@@ -51,10 +51,9 @@ class DesksList:
         self.id=id
         tmp=self.ultimo
         while tmp:
-            print(tmp.code)
             tmp=tmp.anterior
             if tmp.code==self.id:
                 tmp.state=True
                 return True
             if tmp==self.ultimo:
-                print("TODO MAL NO ES ENCONTRO NADA")
+                print("TODO MAL NO SE ENCONTRO NADA")

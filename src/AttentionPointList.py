@@ -40,9 +40,34 @@ class AttentionPointList:
         
     def recorrer_fin_inicio(self):
         tmp=self.ultimo
+        
         while tmp:
             print(tmp.code, tmp.name, tmp.address,tmp.idEmpresa)
             tmp=tmp.anterior
             if tmp==self.ultimo:
                 break
+            
+        
+    def repartoPuntos(self,seleccionEmpresa):
+        self.seleccion=seleccionEmpresa
+        tmp=self.ultimo
+        while tmp:
+            tmp=tmp.anterior
+            if tmp.idEmpresa==self.seleccion:
+                print(tmp.code,tmp.name,tmp.address,tmp.idEmpresa)
+                
+            if tmp==self.ultimo:
+                break
+    def seleccionPuntoAtencion(self,seleccionPunto,idempresa):
+        self.idempresa=idempresa
+        self.seleccion=seleccionPunto
+        tmp=self.ultimo
+        while tmp:
+            tmp=tmp.anterior
+            if tmp.code==self.seleccion and tmp.idEmpresa==self.idempresa:
+                print("HA SELECCIONADO EL PUNTO: ",tmp.code,tmp.name,tmp.address,tmp.idEmpresa)
+                
+            if tmp==self.ultimo:
+                break
+        
         

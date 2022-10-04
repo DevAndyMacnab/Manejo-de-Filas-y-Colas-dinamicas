@@ -13,8 +13,7 @@ from TransactionsList import TransactionsList
 from transaccionesClientesLista import TransaccionesClientesLista
 
 
-print("BIENVENIDO SELECCIONE LAS PRIMERAS OPCIONES PARA INICIAR:")
-print(" -limpiar\n -config \n -crearEmpresa \n -inicial")
+
 enterpriseList=EnterpriseList()
 attentionList=AttentionPointList()
 listadodesk=DesksList()
@@ -172,6 +171,26 @@ while True:
                     
         listaTransaccionesClientes.recorrer_fin_inicio()            
         listaClientes.recorrer_fin_inicio()
+        
+    elif firstOpcion=="seleccion":
+        #LISTADO DE TODAS LAS EMPRESAS DISPONIBLES
+        enterpriseList.recorrer_fin_inicio()
+        seleccionEmpresa=input("SELECCIONE UNA EMPRESA INGRESANDO EL ID: ")
+        enterpriseList.seleccionEmpresa(seleccionEmpresa)
+        print("---------------------")
+        attentionList.repartoPuntos(seleccionEmpresa)
+        
+        seleccionPunto=input("SELECCIONE EL PUNTO DE ANTECION INGRESANDO EL ID: ")
+        attentionList.seleccionPuntoAtencion(seleccionPunto,seleccionEmpresa)
+        
+        
+        
+        
+        
+        
+        
+        
+        
             
                 
     
