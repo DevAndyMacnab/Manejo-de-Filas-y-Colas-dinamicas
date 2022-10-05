@@ -10,7 +10,7 @@ from AttentionPointList import AttentionPointList
 from ClientList import ClientList
 from DesksList import DesksList
 from TransactionsList import TransactionsList
-from transaccionesClientesLista import TransaccionesClientesLista
+#from transaccionesClientesLista import TransaccionesClientesLista
 
 
 
@@ -19,7 +19,7 @@ attentionList=AttentionPointList()
 listadodesk=DesksList()
 listTransacciones= TransactionsList()
 listaClientes=ClientList()
-listaTransaccionesClientes= TransaccionesClientesLista()
+#listaTransaccionesClientes= TransaccionesClientesLista()
 
 while True:
     print(" -limpiar\n -config \n -crearEmpresa \n -inicial \n -seleccion")
@@ -30,7 +30,7 @@ while True:
         listadodesk=DesksList()
         listTransacciones= TransactionsList()
         listaClientes=ClientList()
-        listaTransaccionesClientes=TransaccionesClientesLista()
+        #listaTransaccionesClientes=TransaccionesClientesLista()
         
         print("LA LISTA SE HA LIMPIADO CORRECTAMENTE")
         enterpriseList.recorrer_fin_inicio()
@@ -76,7 +76,7 @@ while True:
                             attendant=ele.find("encargado").text
                             state=False
                             idPuntoAtencion=element.attrib["id"]
-                            listadodesk.agregar_inicio(code,id,attendant,state,idPuntoAtencion)
+                            listadodesk.agregar_inicio(code,id,attendant,state,idPuntoAtencion,idEmpresa)
                 
                 for transac in transacciones:
                     id=transac.attrib["id"]
@@ -118,7 +118,7 @@ while True:
             attend=input("INGRESE EL NOMBRE DEL ENCARGADO ")
             state=False
             idAtencion=codigo
-            listadodesk.agregar_inicio(Codigo,ide,attend,state,idAtencion)
+            listadodesk.agregar_inicio(Codigo,ide,attend,state,idAtencion,idEmpresa)
             
         print("SE HAN GUARDADO LOS DATOS DE LA EMPRESA SATISFACTORIAMENTE: ")
         print("Empresas")
@@ -157,7 +157,7 @@ while True:
                     dpi= cliente.attrib["dpi"]
                     nombre=cliente.find("nombre").text
                     listaClientes.agregar_inicio(dpi,nombre,idEmpresa,idpoint)
-                    print("todo bien")
+                    
                     
                     for transaccion in cliente:
                         clienteTransaccion=transaccion.findall("transaccion")
@@ -165,11 +165,15 @@ while True:
                         for element in clienteTransaccion:
                             idTransaccion=element.attrib["idTransaccion"]
                             cantidad=element.attrib["cantidad"]
-                            listaTransaccionesClientes.agregar_inicio(idTransaccion,cantidad,dpi)
-                            print(idTransaccion,cantidad)
+                            listTransacciones.agregar_inicio_Clientes(idTransaccion,cantidad,dpi,idEmpresa,idpoint,"0")
+                            #listaTransaccionesClientes.agregar_inicio(idTransaccion,cantidad,dpi,idEmpresa)
+
                             
                     
-        listaTransaccionesClientes.recorrer_fin_inicio()            
+        #listaTransaccionesClientes.recorrer_fin_inicio()  
+        print("nueva funcion")          
+        listTransacciones.recorrerClientes()
+        print("------------------------------------")
         listaClientes.recorrer_fin_inicio()
         
     elif firstOpcion=="seleccion":
@@ -182,19 +186,18 @@ while True:
         
         seleccionPunto=input("SELECCIONE EL PUNTO DE ANTECION INGRESANDO EL ID: ")
         attentionList.seleccionPuntoAtencion(seleccionPunto,seleccionEmpresa)
+        print("EL LISTADO DE ESCRITORIOS DE SERVICIO DEL PUNTO SELECCIONADO SON:")
+        listadodesk.enlistarEscritorios(seleccionPunto,seleccionEmpresa)
+        print()
+        print("EL ESTADO DEL PUNTO DE ATENCION SELECCIONADO ES:")
+        listadodesk.cantidadActivos(seleccionPunto,seleccionEmpresa)
+        listadodesk.cantidadNoActivos(seleccionPunto,seleccionEmpresa)
+        listaClientes.enlistarClientes(seleccionPunto,seleccionEmpresa)
+        
+        # me devolvera los tiempos de las transaccones del punto de atencion en general
+        print("-----------------------NUEVA FASE----------------")
+        listTransacciones.tiemposTotales(seleccionEmpresa,seleccionPunto)
         
         
-        
-        
-        
-        
-        
-        
-        
-            
-                
-    
-    
-    
-    
+        #listTransacciones
         

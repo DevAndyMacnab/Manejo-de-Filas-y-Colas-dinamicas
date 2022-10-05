@@ -13,8 +13,8 @@ class DesksList:
         else:
             return False
         
-    def agregar_inicio(self, code, id,attendant, state,idPuntoAtencion):
-        nuevo=Desks( code, id, attendant,state,idPuntoAtencion)
+    def agregar_inicio(self, code, id,attendant, state,idPuntoAtencion,idEmpresa):
+        nuevo=Desks( code, id, attendant,state,idPuntoAtencion,idEmpresa)
 
         if self.estaVacia():
             self.primero=self.ultimo=nuevo
@@ -42,7 +42,7 @@ class DesksList:
     def recorrer_fin_inicio(self):
         tmp=self.ultimo
         while tmp:
-            print(tmp.code, tmp.id, tmp.attendant,tmp.state,tmp.idPuntoAtencion)
+            print(tmp.code, tmp.id, tmp.attendant,tmp.state,tmp.idPuntoAtencion,tmp.idEmpresa)
             tmp=tmp.anterior
             if tmp==self.ultimo:
                 break
@@ -57,3 +57,49 @@ class DesksList:
                 return True
             if tmp==self.ultimo:
                 print("TODO MAL NO SE ENCONTRO NADA")
+                
+    def enlistarEscritorios(self,idPunto,idEmpresa):
+        self.idpunto=idPunto
+        self.idempresa=idEmpresa
+        tmp=self.ultimo
+        while tmp:
+            tmp=tmp.anterior
+            if tmp.idPuntoAtencion==self.idpunto and tmp.idEmpresa==self.idempresa:
+                print(tmp.code, tmp.id, tmp.attendant, tmp.state,tmp.idPuntoAtencion)
+            if tmp==self.ultimo:
+                break
+            
+    def cantidadActivos(self,idPunto,idEmpresa):
+        self.idempresa=idEmpresa
+        self.idpunto=idPunto
+        cantidad=0
+        tmp=self.ultimo
+        while tmp:
+            tmp=tmp.anterior
+            if tmp.idPuntoAtencion==self.idpunto and tmp.idEmpresa==self.idempresa:
+                if tmp.state==True:
+                    cantidad+=1
+                    
+                
+            if tmp==self.ultimo:
+                print("La cantidad de escritorios activos es:", cantidad)
+                break
+                    
+        
+    def cantidadNoActivos(self,idPunto,idEmpresa):
+        self.idempresa=idEmpresa
+        self.idpunto=idPunto
+        cantidad=0
+        tmp=self.ultimo
+        while tmp:
+            tmp=tmp.anterior
+            if tmp.idPuntoAtencion==self.idpunto and tmp.idEmpresa==self.idempresa:
+                if tmp.state==False:
+                    cantidad+=1
+                    
+                
+            if tmp==self.ultimo:
+                print("La cantidad de escritorios NO activos es:", cantidad)
+                break
+        
+        
