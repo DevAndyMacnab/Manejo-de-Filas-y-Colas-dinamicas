@@ -317,15 +317,28 @@ class TransactionsList:
         tmpClient=self.ultimoCliente
         tmpTransacciones=self.ultimo2
         self.tiempoEspera=0
+        self.tiempoEsperaMaximo=0
+        self.tiempoEsperaMinimo=100
+        self.tiempoEsperaPromedio=0
         
         while tmpDesk:
+            self.tiempoEspera=0
             if self.idEmpresa==tmpDesk.idEmpresa and self.idpoint==tmpDesk.idPuntoAtencion and tmpDesk.state==True :
                 while tmpClient:
                     if self.idEmpresa==tmpClient.idEmpresa and self.idpoint==tmpClient.idPunto and tmpDesk.code==tmpClient.idDesk:
                         print(tmpDesk.code)
                         print(tmpClient.name,tmpClient.tiempoAtencion)
+                        tmpClient.tiempoEspera=self.tiempoEspera
+                        
+                        if tmpClient.tiempoEspera>self.tiempoEsperaMaximo:
+                            self.tiempoEsperaMaximo=tmpClient.tiempoEspera
+                            
+                        if tmpClient.tiempoEspera<self.tiempoEsperaMinimo and tmpClient.tiempoEspera>0:
+                            self.tiempoEsperaMinimo=tmpClient.tiempoEspera
+                        print("su tiempo de espera es:",tmpClient.tiempoEspera)
+                        
                         self.tiempoEspera=self.tiempoEspera + tmpClient.tiempoAtencion
-                        print("su tiempo de espera es:",self.tiempoEspera)
+                        
                         while tmpTransacciones:
                             if self.idEmpresa==tmpTransacciones.idEmpresa and self.idpoint==tmpTransacciones.idpoint and tmpClient.dpi==tmpTransacciones.dpiCliente:
                                 print("transacciones: ",tmpTransacciones.dpiCliente)
@@ -338,6 +351,9 @@ class TransactionsList:
             tmpDesk=tmpDesk.anteriordesk
             if tmpDesk==self.ultimodesk:
                 break
+        print("--------------------------------")
+        print("EL TIEMPO DE ESPERA MAXIMO DEL PUNTO DE ATENCION ES: ",self.tiempoEsperaMaximo)
+        print("EL TIEMPO DE ESPERAR MINIMO DEL PUNTO DE ATENCION ES:", self.tiempoEsperaMinimo)
             
                         
         
