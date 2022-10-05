@@ -1,6 +1,7 @@
 from ast import Break, If
 from cgi import print_directory
 import os
+from xml.etree.ElementTree import register_namespace
 from Transactions import Transactions
 from transaccionesClientes import TransaccionesClientes
 from Desks import Desks
@@ -284,6 +285,9 @@ class TransactionsList:
                             if tmpTransacciones==self.ultimo2:
                                 break
                         tmpClient.tiempoAtencion=self.tiempoAtencion
+                        if tmpClient.tiempoAtencion>self.tiempoMaximo:
+                            self.tiempoMaximo=tmpClient.tiempoAtencion
+                            print(self.tiempoMaximo)
                         print("     el tiempo de atencion del cliente es: ",tmpClient.tiempoAtencion)
                         
                     tmpClient=tmpClient.anteriorCliente
