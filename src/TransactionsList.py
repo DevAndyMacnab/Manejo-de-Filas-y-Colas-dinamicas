@@ -1,4 +1,5 @@
 from ast import Break
+from cgi import print_directory
 import os
 from Transactions import Transactions
 from transaccionesClientes import TransaccionesClientes
@@ -80,7 +81,7 @@ class TransactionsList:
             tmp.siguienteCliente=self.primeroCliente
             self.primeroCliente.anteriorCliente=tmp
             self.primeroCliente=tmp
-        self.unirNodosClientes()
+        self.unirNodosClient()
         
     def agregar_inicioDesk(self,code,id,attendant,state,idPuntoAtencion,idEmpresa):
         nuevo=Desks(code,id,attendant,state,idPuntoAtencion,idEmpresa)
@@ -152,7 +153,7 @@ class TransactionsList:
     def recorrerClient(self):
         tmp=self.ultimoCliente
         while tmp:
-            print(tmp.dpi,tmp.name,tmp.idEmpresa,tmp.idPunto,tmp.tiempoEspera,tmp.tiempoAtencion)
+            print(tmp.dpi,tmp.name,tmp.idEmpresa,tmp.idPunto,tmp.idDesk,tmp.tiempoEspera,tmp.tiempoAtencion)
             tmp=tmp.anteriorCliente
             if tmp==self.ultimoCliente:
                 break
@@ -175,6 +176,7 @@ class TransactionsList:
         tmp=self.ultimo
         tmp2=self.ultimo2
         while tmp2:
+            
             while tmp:       
                 operando=0
                 tmp=tmp.anterior
@@ -190,6 +192,114 @@ class TransactionsList:
             if tmp2==self.ultimo2:
                 break
             
+            
+    def activarEscritorio(self,id):
+        self.id=id
+        tmp=self.ultimodesk
+        while tmp:
+            tmp=tmp.anteriordesk
+            if tmp.code==self.id:
+                tmp.state=True
+                return True
+            if tmp==self.ultimodesk:
+                print("TODO MAL NO SE ENCONTRO NADA")
+                
+                
+    def cantidadActivos(self,idPunto,idEmpresa):
+        self.idempresa=idEmpresa
+        self.idpunto=idPunto
+        cantidad=0
+        tmp=self.ultimodesk
+        while tmp:
+            tmp=tmp.anteriordesk
+            if tmp.idPuntoAtencion==self.idpunto and tmp.idEmpresa==self.idempresa:
+                if tmp.state==True:
+                    cantidad+=1
+                    
+                
+            if tmp==self.ultimodesk:
+                print("La cantidad de escritorios activos es:", cantidad)
+                break
+                    
+        
+    def cantidadNoActivos(self,idPunto,idEmpresa):
+        self.idempresa=idEmpresa
+        self.idpunto=idPunto
+        cantidad=0
+        tmp=self.ultimodesk
+        while tmp:
+            tmp=tmp.anteriordesk
+            if tmp.idPuntoAtencion==self.idpunto and tmp.idEmpresa==self.idempresa:
+                if tmp.state==False:
+                    cantidad+=1
+                    
+                
+            if tmp==self.ultimodesk:
+                print("La cantidad de escritorios NO activos es:", cantidad)
+                break
+            
+            
+    def enlistarClientes(self,idepunto,idEmpresa):
+        cantidad=0
+        self.idpunto=idepunto
+        self.idempresa=idEmpresa
+        tmp=self.ultimoCliente
+        while tmp:
+            tmp=tmp.anteriorCliente
+            if tmp.idPunto==self.idpunto and tmp.idEmpresa==self.idempresa:
+               cantidad+=1 
+            if tmp==self.ultimoCliente:
+                print("La cantidad de clientes en espera es:", cantidad)
+                break
+        
+    def asignarEscritorios(self,idempresa,idpoint):
+        self.idEmpresa=idempresa
+        self.idpoint=idpoint
+        tmpDesk=self.ultimodesk
+        tmpClient=self.ultimoCliente
+        tmpTransacciones=self.ultimo2
+        self.tiempoAtencion=0
+        
+        print("llego aca")
+        while tmpDesk:
+            print("LLEGO HASTA ACA")
+            if self.idEmpresa==tmpDesk.idEmpresa and self.idpoint==tmpDesk.idPuntoAtencion and tmpDesk.state==True :
+                print("ESCRITORIO",tmpDesk.code)
+                
+                while tmpClient:
+                    self.tiempoAtencion=0
+                    if self.idEmpresa==tmpClient.idEmpresa and self.idpoint==tmpClient.idPunto:
+                        tmpClient.idDesk=tmpDesk.code
+                        print("  cliente",tmpClient.dpi,tmpClient.name,tmpClient.idDesk)
+                        
+                        while tmpTransacciones:
+                            if self.idEmpresa==tmpTransacciones.idEmpresa and self.idpoint==tmpTransacciones.idpoint and tmpClient.dpi==tmpTransacciones.dpiCliente:
+                                print("    ",tmpTransacciones.idTransaccion,tmpTransacciones.dpiCliente)
+                                self.tiempoAtencion=self.tiempoAtencion+tmpTransacciones.tiempoTotal
+
+                            tmpTransacciones=tmpTransacciones.anterior2
+                            
+                            if tmpTransacciones==self.ultimo2:
+                                break
+                        tmpClient.tiempoAtencion=self.tiempoAtencion
+                        print("     el tiempo de atencion del cliente es: ",tmpClient.tiempoAtencion)
+                        
+                        
+                    tmpClient=tmpClient.anteriorCliente
+                    
+                    if tmpClient==self.ultimoCliente:
+                        break
+                    
+                    break
+            tmpDesk=tmpDesk.anteriordesk
+            if tmpClient==self.ultimoCliente:
+                break
+            
+            #if tmpDesk==self.ultimodesk:
+                
+        
+        
+        
             
         
             

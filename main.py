@@ -1,3 +1,4 @@
+from cgi import print_directory
 from email.errors import InvalidMultipartContentTransferEncodingDefect
 import sys
 sys.path.append(r"C:\Users\andyr\Desktop\PROGRA PARA USAC\PROYECTO2-LAB-IPC2\src")
@@ -76,6 +77,7 @@ while True:
                             attendant=ele.find("encargado").text
                             state=False
                             idPuntoAtencion=element.attrib["id"]
+                            listTransacciones.agregar_inicioDesk(code,id,attendant,state,idPuntoAtencion,idEmpresa)
                             listadodesk.agregar_inicio(code,id,attendant,state,idPuntoAtencion,idEmpresa)
                 
                 for transac in transacciones:
@@ -90,6 +92,7 @@ while True:
         attentionList.recorrer_fin_inicio()
         print("LISTA DE ESCRITORIOS -----------------------")
         listadodesk.recorrer_fin_inicio()
+        listTransacciones.recorrerDesk()
         print("LISTA DE TRANSACCIONES -----------------------")
         listTransacciones.recorrer_fin_inicio()
         
@@ -118,7 +121,7 @@ while True:
             attend=input("INGRESE EL NOMBRE DEL ENCARGADO ")
             state=False
             idAtencion=codigo
-            listadodesk.agregar_inicio(Codigo,ide,attend,state,idAtencion,idEmpresa)
+            listTransacciones.agregar_inicioDesk(Codigo,ide,attend,state,idAtencion,idEmpresa)
             
         print("SE HAN GUARDADO LOS DATOS DE LA EMPRESA SATISFACTORIAMENTE: ")
         print("Empresas")
@@ -147,7 +150,7 @@ while True:
                 for desk in element:
                     activar=desk.attrib["idEscritorio"]
                     
-                    listadodesk.activarEscritorio(activar)
+                    listTransacciones.activarEscritorio(activar)
                     #listadodesk.recorrer_fin_inicio()
             
             for el in configInicial:
@@ -156,7 +159,8 @@ while True:
                 for cliente in clientes:
                     dpi= cliente.attrib["dpi"]
                     nombre=cliente.find("nombre").text
-                    listaClientes.agregar_inicio(dpi,nombre,idEmpresa,idpoint)
+                    #listaClientes.agregar_inicio(dpi,nombre,idEmpresa,idpoint)
+                    listTransacciones.agregar_inicioClientes(dpi,nombre,idEmpresa,idpoint,"0","0","0")
                     
                     
                     for transaccion in cliente:
@@ -171,7 +175,7 @@ while True:
                             
                     
         #listaTransaccionesClientes.recorrer_fin_inicio()  
-        print("nueva funcion")          
+        listTransacciones.recorrerClient()        
         listTransacciones.recorrerClientes()
         print("------------------------------------")
         listaClientes.recorrer_fin_inicio()
@@ -190,14 +194,20 @@ while True:
         listadodesk.enlistarEscritorios(seleccionPunto,seleccionEmpresa)
         print()
         print("EL ESTADO DEL PUNTO DE ATENCION SELECCIONADO ES:")
-        listadodesk.cantidadActivos(seleccionPunto,seleccionEmpresa)
-        listadodesk.cantidadNoActivos(seleccionPunto,seleccionEmpresa)
-        listaClientes.enlistarClientes(seleccionPunto,seleccionEmpresa)
+        listTransacciones.cantidadActivos(seleccionPunto,seleccionEmpresa)
+        listTransacciones.cantidadNoActivos(seleccionPunto,seleccionEmpresa)
+        listTransacciones.enlistarClientes(seleccionPunto,seleccionEmpresa)
         
         # me devolvera los tiempos de las transaccones del punto de atencion en general
         print("-----------------------NUEVA FASE----------------")
         listTransacciones.tiemposTotales(seleccionEmpresa,seleccionPunto)
         listTransacciones.recorrerClientes()
+        
+        
+        print("VISTA DE LOS ESCRITORIOS")
+        listTransacciones.recorrerDesk()
+        print("SEPARACION-------------------------------")
+        listTransacciones.asignarEscritorios(seleccionEmpresa,seleccionPunto)
         
         #listTransacciones
         
