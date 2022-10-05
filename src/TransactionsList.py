@@ -185,8 +185,6 @@ class TransactionsList:
                     
                     operando=int(tmp.time)*int(tmp2.cantidad)
                     tmp2.tiempoTotal=operando
-
-                    print(operando)
                 if tmp==self.ultimo:
                     break
             tmp2=tmp2.anterior2
@@ -261,7 +259,9 @@ class TransactionsList:
         tmpTransacciones=self.ultimo2
         self.tiempoAtencion=0
         self.tiempoMaximo=0
-        self.tiempoMinimo=0
+        self.tiempoMinimo=100
+        self.tiempoPromedio=0
+        self.cantidad=0
         
         
         
@@ -273,7 +273,7 @@ class TransactionsList:
                     self.tiempoAtencion=0
                     if self.idEmpresa==tmpClient.idEmpresa and self.idpoint==tmpClient.idPunto:
                         tmpClient.idDesk=tmpDesk.code
-                        print("  cliente",tmpClient.dpi,tmpClient.name,tmpClient.idDesk)
+                        print("  CLIENTE:",tmpClient.dpi,tmpClient.name,tmpClient.idDesk)
                         
                         while tmpTransacciones:
                             if self.idEmpresa==tmpTransacciones.idEmpresa and self.idpoint==tmpTransacciones.idpoint and tmpClient.dpi==tmpTransacciones.dpiCliente:
@@ -287,9 +287,12 @@ class TransactionsList:
                         tmpClient.tiempoAtencion=self.tiempoAtencion
                         if tmpClient.tiempoAtencion>self.tiempoMaximo:
                             self.tiempoMaximo=tmpClient.tiempoAtencion
-                            print(self.tiempoMaximo)
-                        print("     el tiempo de atencion del cliente es: ",tmpClient.tiempoAtencion)
-                        
+                        if tmpClient.tiempoAtencion<self.tiempoMinimo:
+                            self.tiempoMinimo=tmpClient.tiempoAtencion
+                            
+                        print("     El tiempo de atencion del cliente es de: ",tmpClient.tiempoAtencion)
+                        self.tiempoPromedio=self.tiempoPromedio+tmpClient.tiempoAtencion
+                        self.cantidad+=1
                     tmpClient=tmpClient.anteriorCliente
                     
                     if tmpClient==self.ultimoCliente:
@@ -302,6 +305,10 @@ class TransactionsList:
                 break
             
             #if tmpDesk==self.ultimodesk:
+        self.tiempoPromedio=self.tiempoPromedio/self.cantidad
+        print("EL TIEMPO DE ATENCION PROMEDIO DEL PUNTO ES:", self.tiempoPromedio)
+        print("EL TIEMPO DE ATENCION MAXIMO DEL PUNTO ES:", self.tiempoMaximo)
+        print("EL TIEMPO MINIMO DE ATENCION DEL PUNTO ES:", self.tiempoMinimo)
     
     def manejoTiempos(self,idEmpresa,idPunto):
         self.idempresa=idEmpresa
@@ -309,13 +316,16 @@ class TransactionsList:
         tmpDesk=self.ultimodesk
         tmpClient=self.ultimoCliente
         tmpTransacciones=self.ultimo2
+        self.tiempoEspera=0
+        
         while tmpDesk:
             if self.idEmpresa==tmpDesk.idEmpresa and self.idpoint==tmpDesk.idPuntoAtencion and tmpDesk.state==True :
-                
                 while tmpClient:
                     if self.idEmpresa==tmpClient.idEmpresa and self.idpoint==tmpClient.idPunto and tmpDesk.code==tmpClient.idDesk:
                         print(tmpDesk.code)
-                        print(tmpClient.name)
+                        print(tmpClient.name,tmpClient.tiempoAtencion)
+                        self.tiempoEspera=self.tiempoEspera + tmpClient.tiempoAtencion
+                        print("su tiempo de espera es:",self.tiempoEspera)
                         while tmpTransacciones:
                             if self.idEmpresa==tmpTransacciones.idEmpresa and self.idpoint==tmpTransacciones.idpoint and tmpClient.dpi==tmpTransacciones.dpiCliente:
                                 print("transacciones: ",tmpTransacciones.dpiCliente)
@@ -325,6 +335,7 @@ class TransactionsList:
                     tmpClient=tmpClient.anteriorCliente
                     if tmpClient==self.ultimoCliente:
                         break
+            tmpDesk=tmpDesk.anteriordesk
             if tmpDesk==self.ultimodesk:
                 break
             

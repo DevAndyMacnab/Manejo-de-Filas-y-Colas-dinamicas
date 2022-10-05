@@ -175,10 +175,12 @@ while True:
                             
                     
         #listaTransaccionesClientes.recorrer_fin_inicio()  
+        print("LISTA DE TODOS LOS CLIENTES INGRESADOS EN LA CONFIGURACION INICAL----------------")
         listTransacciones.recorrerClient()        
+        print("LISTA DE TRANSACCIONES DE TODOS LOS CLIENTES -----------------------------")
         listTransacciones.recorrerClientes()
         print("------------------------------------")
-        listaClientes.recorrer_fin_inicio()
+        
         
     elif firstOpcion=="seleccion":
         #LISTADO DE TODAS LAS EMPRESAS DISPONIBLES
@@ -199,11 +201,9 @@ while True:
         listTransacciones.enlistarClientes(seleccionPunto,seleccionEmpresa)
         
         # me devolvera los tiempos de las transaccones del punto de atencion en general
-        print("-----------------------NUEVA FASE----------------")
-        listTransacciones.tiemposTotales(seleccionEmpresa,seleccionPunto)
-        listTransacciones.recorrerClientes()
         
-        print("SEPARACION-------------------------------")
+        listTransacciones.tiemposTotales(seleccionEmpresa,seleccionPunto)
+        print("--------------ASIGNACION DE ESCRITORIOS A LOS CLIENTES-----------------")
         
         listTransacciones.asignarEscritorios(seleccionPunto,seleccionEmpresa)
         
