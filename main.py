@@ -203,11 +203,12 @@ while True:
         listTransacciones.tiemposTotales(seleccionEmpresa,seleccionPunto)
         listTransacciones.recorrerClientes()
         
-        
-        print("VISTA DE LOS ESCRITORIOS")
-        listTransacciones.recorrerDesk()
         print("SEPARACION-------------------------------")
-        listTransacciones.asignarEscritorios(seleccionEmpresa,seleccionPunto)
+        
+        listTransacciones.asignarEscritorios(seleccionPunto,seleccionEmpresa)
+        
+        print("-------------------")
+        listTransacciones.manejoTiempos(seleccionEmpresa,seleccionPunto)
         
         #listTransacciones
         
