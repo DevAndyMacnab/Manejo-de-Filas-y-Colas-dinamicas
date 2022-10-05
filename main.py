@@ -197,7 +197,7 @@ while True:
         # me devolvera los tiempos de las transaccones del punto de atencion en general
         print("-----------------------NUEVA FASE----------------")
         listTransacciones.tiemposTotales(seleccionEmpresa,seleccionPunto)
-        
+        listTransacciones.recorrerClientes()
         
         #listTransacciones
         

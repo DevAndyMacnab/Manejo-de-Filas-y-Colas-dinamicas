@@ -2,13 +2,23 @@ from ast import Break
 import os
 from Transactions import Transactions
 from transaccionesClientes import TransaccionesClientes
+from Desks import Desks
+from Client import Client
+
 
 class TransactionsList:
     def __init__(self) :
         self.primero=None
         self.ultimo=None
+        
         self.primero2=None
         self.ultimo2=None
+        
+        self.primerodesk=None
+        self.ultimodesk=None
+        
+        self.primeroCliente=None
+        self.ultimoCliente=None
         
         
     def estaVacia(self):
@@ -22,6 +32,21 @@ class TransactionsList:
             return True
         else:
             return False
+        
+    def estaVaciaDesk(self):
+        if self.primerodesk==None:
+            return True
+        else:
+            return False
+        
+    def estaVaciaCliente(self):
+        if self.primeroCliente==None:
+            return True
+        else:
+            return False
+        
+    
+    
         
     def agregar_inicio(self, code, name, time,idEmpresa):
         nuevo=Transactions( code, name, time,idEmpresa)
@@ -45,6 +70,29 @@ class TransactionsList:
             self.primero2.anterior2=tmp
             self.primero2=tmp
         self.unirNodosClientes()
+        
+    def agregar_inicioClientes(self,dpi,name,idEmpresa,idPunto,idDesk,tiempoEspera,tiempoAtencion):
+        nuevo=Client(dpi,name,idEmpresa,idPunto,idDesk,tiempoEspera,tiempoAtencion)
+        if self.estaVaciaCliente():
+            self.primeroCliente=self.ultimoCliente=nuevo
+        else:
+            tmp=nuevo
+            tmp.siguienteCliente=self.primeroCliente
+            self.primeroCliente.anteriorCliente=tmp
+            self.primeroCliente=tmp
+        self.unirNodosClientes()
+        
+    def agregar_inicioDesk(self,code,id,attendant,state,idPuntoAtencion,idEmpresa):
+        nuevo=Desks(code,id,attendant,state,idPuntoAtencion,idEmpresa)
+        if self.estaVaciaDesk():
+            self.primerodesk=self.ultimodesk=nuevo
+        else:
+            tmp=nuevo
+            tmp.siguientedesk=self.primerodesk
+            self.primerodesk.anteriordesk=tmp
+            self.primerodesk=tmp
+        self.unirNodosDesk()
+        
             
             
         
@@ -58,6 +106,20 @@ class TransactionsList:
             self.primero2.anterior2=self.ultimo2
             self.ultimo2.siguiente2=self.primero2
             
+    def unirNodosClient(self):
+        if self.primeroCliente!=None:
+            self.primeroCliente.anteriorCliente=self.ultimoCliente
+            self.ultimoCliente.siguienteCliente=self.primeroCliente
+            
+    def unirNodosDesk(self):
+        if self.primerodesk!=None:
+            self.primerodesk.anteriordesk=self.ultimodesk
+            self.ultimodesk.ultimodesk=self.primerodesk
+        
+            
+            
+            
+            
     def eliminar_final(self):
         if self.estaVacia():
             print("ERROR: La lista esta vacia")
@@ -66,6 +128,9 @@ class TransactionsList:
         else:
             self.ultimo=self.ultimo.anterior
         self .__unir_nodos()
+        
+        
+        
         
     def recorrer_fin_inicio(self):
         tmp=self.ultimo
@@ -83,25 +148,45 @@ class TransactionsList:
             tmp=tmp.anterior2
             if tmp==self.ultimo2:
                 break
+    
+    def recorrerClient(self):
+        tmp=self.ultimoCliente
+        while tmp:
+            print(tmp.dpi,tmp.name,tmp.idEmpresa,tmp.idPunto,tmp.tiempoEspera,tmp.tiempoAtencion)
+            tmp=tmp.anteriorCliente
+            if tmp==self.ultimoCliente:
+                break
+            
+    def recorrerDesk(self):
+        tmp=self.ultimodesk
+        while tmp:
+            print(tmp.code,tmp.id,tmp.attendant,tmp.state,tmp.idPuntoAtencion,tmp.idEmpresa)
+            tmp=tmp.anteriordesk
+            if tmp==self.ultimodesk:
+                break
+                    
+            
+            
             
     def tiemposTotales(self,idempresa,idpoint):
-        
+        self.sumatoria=0
         self.idempresa=idempresa
         self.idpoint=idpoint
         tmp=self.ultimo
         tmp2=self.ultimo2
         while tmp2:
-            tmp2=tmp2.anterior2
-            
-            while tmp:
+            while tmp:       
                 operando=0
                 tmp=tmp.anterior
-                if tmp.code==tmp2.idTransaccion:
-                    print(tmp.time, tmp2.cantidad)
+                if tmp.code==tmp2.idTransaccion and self.idempresa==tmp2.idEmpresa:
+                    
                     operando=int(tmp.time)*int(tmp2.cantidad)
+                    tmp2.tiempoTotal=operando
+
                     print(operando)
                 if tmp==self.ultimo:
                     break
+            tmp2=tmp2.anterior2
             if tmp2==self.ultimo2:
                 break
             
