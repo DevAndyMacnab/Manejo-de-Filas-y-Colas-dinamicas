@@ -236,5 +236,6 @@ while True:
                 
                 
             elif seleccion=="graficar":
-                
+                listTransacciones.crearReporteCliente()
+                listTransacciones.crearReporteDesk()
         

@@ -456,12 +456,12 @@ class TransactionsList:
         text+="labelloc=\"t; \"label = \"Cursos\";\n"
 
         while aux:
-            text+="x"+str(aux.dpi)+"[dir=both label=\"DPI ="+str(aux.dpi)+"\\nNombre = "+aux.name+" \\nCreditos = "+str(aux.idDesk)+ "\"]"
+            text+="x"+str(aux.dpi)+"[dir=both label=\"DPI ="+str(aux.dpi)+"\\nNombre = "+aux.name+" \\SU ESCRITORIO = "+str(aux.idDesk)+ "\"]"
             text+="x"+str(aux.dpi)+"-> x"+str(aux.siguienteCliente.dpi) +"\n"
             text+="x"+str(aux.dpi)+"-> x"+str(aux.anteriorCliente.dpi) +"\n"
             aux=aux.siguienteCliente
             if aux!=self.primeroCliente:
-                text+="x"+str(aux.dpi)+"[dir=both label=\"Codigo ="+str(aux.dpi)+"\\nNombre = "+aux.name+" \\nCreditos = "+str(aux.idDesk)+ "\"]"
+                text+="x"+str(aux.dpi)+"[dir=both label=\"Codigo ="+str(aux.dpi)+"\\nNombre = "+aux.name+" \\SU ESCRITORIO = "+str(aux.idDesk)+ "\"]"
                 print(text)
             if aux==self.ultimoCliente:
                 text+="x"+str(aux.dpi)+ "-> x"+str(aux.siguienteCliente.dpi)+"\n"
@@ -472,14 +472,14 @@ class TransactionsList:
     def crearReporteCliente(self):
         os.mkdir("Clientes")
         contenido="digraph G{\n\n"
-        r=open("Paciente/reporte.txt","w")
-        contenido+=str(self.report())
+        r=open("Clientes/reporte.txt","w")
+        contenido+=str(self.reporteCliente())
         contenido+="\n}"
         r.write(contenido)
         r.close()
         print("done")
-        os.system("dot -Tpng Paciente/reporte.txt -o Paciente/reporte.png")
-        os.system("dot -Tpdf Paciente/reporte.txt -o Paciente/reporte.pdf")
+        os.system("dot -Tpng Clientes/reporte.txt -o Clientes/reporte.png")
+        os.system("dot -Tpdf Clientes/reporte.txt -o Clientes/reporte.pdf")
     
     def reporteDesk(self):
         aux=self.ultimodesk
@@ -489,18 +489,29 @@ class TransactionsList:
         text+="labelloc=\"t; \"label = \"Cursos\";\n"
 
         while aux:
-            text+="x"+str(aux.codigo)+"[dir=both label=\"Codigo ="+str(aux.codigo)+"\\nNombre = "+aux.nombre+" \\nCreditos = "+str(aux.creditos)+ "\"]"
-            text+="x"+str(aux.codigo)+"-> x"+str(aux.siguiente.codigo) +"\n"
-            text+="x"+str(aux.codigo)+"-> x"+str(aux.anterior.codigo) +"\n"
-            aux=aux.siguiente
-            if aux!=self.primero:
-                text+="x"+str(aux.codigo)+"[dir=both label=\"Codigo ="+str(aux.codigo)+"\\nNombre = "+aux.nombre+" \\nCreditos = "+str(aux.creditos)+ "\"]"
+            text+="x"+str(aux.code)+"[dir=both label=\"Code ="+str(aux.code)+"\\Encargado = "+aux.attendant+" \\Estado = "+str(aux.state)+ "\"]"
+            text+="x"+str(aux.code)+"-> x"+str(aux.siguientedesk.code) +"\n"
+            text+="x"+str(aux.code)+"-> x"+str(aux.anteriordesk.code) +"\n"
+            aux=aux.siguientedesk
+            if aux!=self.primerodesk:
+                text+="x"+str(aux.code)+"[dir=both label=\"Code ="+str(aux.code)+"\\Encargado = "+aux.attendant+" \\Estado = "+str(aux.state)+ "\"]"
                 print(text)
-            if aux==self.ultimo:
-                text+="x"+str(aux.codigo)+ "-> x"+str(aux.siguiente.codigo)+"\n"
-                text+="x"+str(aux.codigo)+ "-> x"+str(aux.anterior.codigo)+"\n"
+            if aux==self.ultimodesk:
+                text+="x"+str(aux.code)+ "-> x"+str(aux.siguientedesk.code)+"\n"
+                text+="x"+str(aux.code)+ "-> x"+str(aux.anteriordesk.code)+"\n"
                 break
         return text
+    def crearReporteDesk(self):
+        os.mkdir('Escritorios')
+        contenido="digraph G{\n\n"
+        r=open("Escritorios/reporte.txt","w")
+        contenido+=str(self.reporteDesk())
+        contenido+="\n}"
+        r.write(contenido)
+        r.close()
+        print("done")
+        os.system("dot -Tpng Escritorios/reporte.txt -o Escritorios/reporte.png")
+        os.system("dot -Tpdf Escritorios/reporte.txt -o Escritorios/reporte.pdf")
         
                 
     
