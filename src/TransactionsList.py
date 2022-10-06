@@ -320,6 +320,7 @@ class TransactionsList:
         self.tiempoEsperaMaximo=0
         self.tiempoEsperaMinimo=100
         self.tiempoEsperaPromedio=0
+        self.cantidad=0
         
         while tmpDesk:
             self.tiempoEspera=0
@@ -329,6 +330,8 @@ class TransactionsList:
                         print(tmpDesk.code)
                         print(tmpClient.name,tmpClient.tiempoAtencion)
                         tmpClient.tiempoEspera=self.tiempoEspera
+                        self.cantidad+=1
+                        self.tiempoEsperaPromedio=self.tiempoEsperaPromedio+ tmpClient.tiempoEspera
                         
                         if tmpClient.tiempoEspera>self.tiempoEsperaMaximo:
                             self.tiempoEsperaMaximo=tmpClient.tiempoEspera
@@ -352,12 +355,100 @@ class TransactionsList:
             if tmpDesk==self.ultimodesk:
                 break
         print("--------------------------------")
+        self.tiempoEsperaPromedio=self.tiempoEsperaPromedio/self.cantidad
         print("EL TIEMPO DE ESPERA MAXIMO DEL PUNTO DE ATENCION ES: ",self.tiempoEsperaMaximo)
         print("EL TIEMPO DE ESPERAR MINIMO DEL PUNTO DE ATENCION ES:", self.tiempoEsperaMinimo)
-            
+        print("EL TIEMPO DE ESPERA PROMEDIO DEL PUNTO DE ATENCION ES: ", self.tiempoEsperaPromedio)
                         
+    def tiempoEscritorios(self,idEmpresa,idPunto):
+        self.idempresa=idEmpresa
+        self.idpunto=idPunto
+        tmpDesk=self.ultimodesk
+        tmpClient=self.ultimoCliente
+        tmpTransacciones=self.ultimo2
+        self.tiempoEspera=0
+        self.tiempoEsperaMaximo=0
+        self.tiempoEsperaMinimo=100
+        self.tiempoEsperaPromedio=0
+        self.cantidad=0
         
+        self.tAntecion=0
+        self.tAtencionMaximo=0
+        self.tAtencionMinimo=0
         
+        while tmpDesk:
+            self.tiempoEspera=0
+            self.tiempoEsperaMaximo=0
+            self.tiempoEsperaMinimo=100
+            self.tiempoEsperaPromedio=0
+            if self.idEmpresa==tmpDesk.idEmpresa and self.idpoint==tmpDesk.idPuntoAtencion and tmpDesk.state==True :
+                while tmpClient:
+                    if self.idEmpresa==tmpClient.idEmpresa and self.idpoint==tmpClient.idPunto and tmpDesk.code==tmpClient.idDesk:
+                        print(tmpDesk.code)
+                        print(tmpClient.name,tmpClient.tiempoAtencion)
+                        tmpClient.tiempoEspera=self.tiempoEspera
+                        self.cantidad+=1
+                        self.tiempoEsperaPromedio=self.tiempoEsperaPromedio+ tmpClient.tiempoEspera
+                        
+                        if tmpClient.tiempoEspera>self.tiempoEsperaMaximo:
+                            self.tiempoEsperaMaximo=tmpClient.tiempoEspera
+                            
+                        if tmpClient.tiempoEspera<self.tiempoEsperaMinimo and tmpClient.tiempoEspera>0:
+                            self.tiempoEsperaMinimo=tmpClient.tiempoEspera
+                        print("su tiempo de espera es:",tmpClient.tiempoEspera)
+                        
+                        
+                        self.tiempoEspera=self.tiempoEspera + tmpClient.tiempoAtencion
+                        
+                        while tmpTransacciones:
+                            if self.idEmpresa==tmpTransacciones.idEmpresa and self.idpoint==tmpTransacciones.idpoint and tmpClient.dpi==tmpTransacciones.dpiCliente:
+                                print("transacciones: ",tmpTransacciones.dpiCliente)
+                            tmpTransacciones=tmpTransacciones.anterior2
+                            if tmpTransacciones==self.ultimo2:
+                                break
+                    tmpClient=tmpClient.anteriorCliente
+                    if tmpClient==self.ultimoCliente:
+                
+                        break
+                print("--------------------------------")
+                self.tiempoEsperaPromedio=self.tiempoEsperaPromedio/self.cantidad
+                print("EL TIEMPO DE ESPERA MAXIMO DEL ESCRITORIO ES: ",self.tiempoEsperaMaximo)
+                print("EL TIEMPO DE ESPERAR MINIMO DEL ESCRITORIO ES:", self.tiempoEsperaMinimo)
+                print("EL TIEMPO DE ESPERA PROMEDIO DEL ESCRITORIO ATENCION ES: ", self.tiempoEsperaPromedio)
+                
+            tmpDesk=tmpDesk.anteriordesk
+            if tmpDesk==self.ultimodesk:
+                break
+            
+    def activarDesk(self,idDesk,idEmpresa,idPunto):
+        self.idesk=idDesk
+        self.idempresa=idEmpresa
+        self.idpunto=idPunto
+        
+        tmp=self.ultimodesk
+        while tmp:
+            tmp=tmp.anteriordesk
+            if tmp.code==self.idesk and tmp.idEmpresa==self.idempresa and tmp.idPuntoAtencion==self.idpunto:
+                print("HA ELEGIDO EL ESCRITORIO:", tmp.code, tmp.attendant)
+                tmp.state=True
+            if tmp==self.ultimodesk:
+                break
+            
+    def desactivarDesk(self,idDesk,idEmpresa,idPunto):
+        self.idesk=idDesk
+        self.idempresa=idEmpresa
+        self.idpunto=idPunto
+        
+        tmp=self.ultimodesk
+        while tmp:
+            tmp=tmp.anteriordesk
+            if tmp.code==self.idesk and tmp.idEmpresa==self.idempresa and tmp.idPuntoAtencion==self.idpunto:
+                print("HA ELEGIDO EL ESCRITORIO:", tmp.code, tmp.attendant)
+                tmp.state=False
+            if tmp==self.ultimodesk:
+                break
+                
+    
         
             
         

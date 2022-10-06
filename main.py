@@ -209,6 +209,32 @@ while True:
         
         print("-------------------")
         listTransacciones.manejoTiempos(seleccionEmpresa,seleccionPunto)
-        
+        print("---------------------")
+        listTransacciones.tiempoEscritorios(seleccionEmpresa,seleccionPunto)
         #listTransacciones
+        condicion=True
+        while condicion==True:
+            
+            print(" -activar\n -desactivar \n -graficar \n -ver \n -salir")
+            seleccion=input("elija una opcion...")
+            
+            if seleccion=="activar":
+                activar=input("INGRESE EL CODIGO DEL ESCRITORIO QUE DESEA ACTIVAR...  ")
+                
+                listTransacciones.activarDesk(activar,seleccionEmpresa,seleccionPunto)
+                listTransacciones.recorrerDesk()
+                
+                
+            elif seleccion=="desactivar":
+                desactivar=input("INGRESE EL CODIGO DEL ESCRITORIO QUE DESEA DESACTIVAR... ")
+                listTransacciones.desactivarDesk(desactivar,seleccionEmpresa,seleccionPunto)
+                listTransacciones.recorrerDesk()
+                
+                
+            elif seleccion=="salir":
+                condicion=False
+                
+                
+            elif seleccion=="graficar":
+                
         
