@@ -447,6 +447,61 @@ class TransactionsList:
                 tmp.state=False
             if tmp==self.ultimodesk:
                 break
+            
+    def reporteCliente(self):
+        aux=self.primeroCliente
+        text=""
+        text+="rankdir=LR; \n "
+        text+="node[shape=egg, style=filled, color=khaki, fontname=\"Century Gothic\"];  graph [fontname = \"Century Gothic\"];"
+        text+="labelloc=\"t; \"label = \"Cursos\";\n"
+
+        while aux:
+            text+="x"+str(aux.dpi)+"[dir=both label=\"DPI ="+str(aux.dpi)+"\\nNombre = "+aux.name+" \\nCreditos = "+str(aux.idDesk)+ "\"]"
+            text+="x"+str(aux.dpi)+"-> x"+str(aux.siguienteCliente.dpi) +"\n"
+            text+="x"+str(aux.dpi)+"-> x"+str(aux.anteriorCliente.dpi) +"\n"
+            aux=aux.siguienteCliente
+            if aux!=self.primeroCliente:
+                text+="x"+str(aux.dpi)+"[dir=both label=\"Codigo ="+str(aux.dpi)+"\\nNombre = "+aux.name+" \\nCreditos = "+str(aux.idDesk)+ "\"]"
+                print(text)
+            if aux==self.ultimoCliente:
+                text+="x"+str(aux.dpi)+ "-> x"+str(aux.siguienteCliente.dpi)+"\n"
+                text+="x"+str(aux.dpi)+ "-> x"+str(aux.anteriorCliente.dpi)+"\n"
+                break
+        return text
+    
+    def crearReporteCliente(self):
+        os.mkdir("Clientes")
+        contenido="digraph G{\n\n"
+        r=open("Paciente/reporte.txt","w")
+        contenido+=str(self.report())
+        contenido+="\n}"
+        r.write(contenido)
+        r.close()
+        print("done")
+        os.system("dot -Tpng Paciente/reporte.txt -o Paciente/reporte.png")
+        os.system("dot -Tpdf Paciente/reporte.txt -o Paciente/reporte.pdf")
+    
+    def reporteDesk(self):
+        aux=self.ultimodesk
+        text=""
+        text+="rankdir=LR; \n "
+        text+="node[shape=egg, style=filled, color=khaki, fontname=\"Century Gothic\"];  graph [fontname = \"Century Gothic\"];"
+        text+="labelloc=\"t; \"label = \"Cursos\";\n"
+
+        while aux:
+            text+="x"+str(aux.codigo)+"[dir=both label=\"Codigo ="+str(aux.codigo)+"\\nNombre = "+aux.nombre+" \\nCreditos = "+str(aux.creditos)+ "\"]"
+            text+="x"+str(aux.codigo)+"-> x"+str(aux.siguiente.codigo) +"\n"
+            text+="x"+str(aux.codigo)+"-> x"+str(aux.anterior.codigo) +"\n"
+            aux=aux.siguiente
+            if aux!=self.primero:
+                text+="x"+str(aux.codigo)+"[dir=both label=\"Codigo ="+str(aux.codigo)+"\\nNombre = "+aux.nombre+" \\nCreditos = "+str(aux.creditos)+ "\"]"
+                print(text)
+            if aux==self.ultimo:
+                text+="x"+str(aux.codigo)+ "-> x"+str(aux.siguiente.codigo)+"\n"
+                text+="x"+str(aux.codigo)+ "-> x"+str(aux.anterior.codigo)+"\n"
+                break
+        return text
+        
                 
     
         
