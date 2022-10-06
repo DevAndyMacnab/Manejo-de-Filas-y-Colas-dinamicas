@@ -453,7 +453,7 @@ class TransactionsList:
         text=""
         text+="rankdir=LR; \n "
         text+="node[shape=egg, style=filled, color=khaki, fontname=\"Century Gothic\"];  graph [fontname = \"Century Gothic\"];"
-        text+="labelloc=\"t; \"label = \"Cursos\";\n"
+        text+="labelloc=\"t; \"label = \"Clientes\";\n"
 
         while aux:
             text+="x"+str(aux.dpi)+"[dir=both label=\"DPI ="+str(aux.dpi)+"\\nNombre = "+aux.name+" \\SU ESCRITORIO = "+str(aux.idDesk)+ "\"]"
@@ -482,23 +482,21 @@ class TransactionsList:
         os.system("dot -Tpdf Clientes/reporte.txt -o Clientes/reporte.pdf")
     
     def reporteDesk(self):
-        aux=self.ultimodesk
+        aux=self.primerodesk
         text=""
         text+="rankdir=LR; \n "
         text+="node[shape=egg, style=filled, color=khaki, fontname=\"Century Gothic\"];  graph [fontname = \"Century Gothic\"];"
-        text+="labelloc=\"t; \"label = \"Cursos\";\n"
+        text+="labelloc=\"t; \"label = \"Escritorios\";\n"
 
         while aux:
-            text+="x"+str(aux.code)+"[dir=both label=\"Code ="+str(aux.code)+"\\Encargado = "+aux.attendant+" \\Estado = "+str(aux.state)+ "\"]"
-            text+="x"+str(aux.code)+"-> x"+str(aux.siguientedesk.code) +"\n"
-            text+="x"+str(aux.code)+"-> x"+str(aux.anteriordesk.code) +"\n"
+            text+="x"+str(aux.id)+"[dir=both label=\"Code ="+str(aux.id)+"\\Encargado = "+aux.attendant+" \\Estado = "+str(aux.state)+ "\"]"
+            text+="x"+str(aux.id)+"-> x"+str(aux.siguientedesk.id) +"\n"
+            text+="x"+str(aux.id)+"-> x"+str(aux.anteriordesk.id) +"\n"
             aux=aux.siguientedesk
             if aux!=self.primerodesk:
-                text+="x"+str(aux.code)+"[dir=both label=\"Code ="+str(aux.code)+"\\Encargado = "+aux.attendant+" \\Estado = "+str(aux.state)+ "\"]"
+                text+="x"+str(aux.id)+"[dir=both label=\"Code ="+str(aux.id)+"\\Encargado = "+aux.attendant+" \\Estado = "+str(aux.state)+ "\"]"
                 print(text)
-            if aux==self.ultimodesk:
-                text+="x"+str(aux.code)+ "-> x"+str(aux.siguientedesk.code)+"\n"
-                text+="x"+str(aux.code)+ "-> x"+str(aux.anteriordesk.code)+"\n"
+            
                 break
         return text
     def crearReporteDesk(self):
